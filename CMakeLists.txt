@@ -68,8 +68,7 @@ target_compile_options(opusfile
     $<$<C_COMPILER_ID:MSVC>:/wd4267>
     $<$<C_COMPILER_ID:MSVC>:/wd4244>
     $<$<C_COMPILER_ID:MSVC>:/wd4090>
-    $<$<C_COMPILER_ID:Clang,GNU>:-std=c89>
-    $<$<C_COMPILER_ID:Clang,GNU>:-pedantic>
+    $<$<C_COMPILER_ID:Clang,GNU>:-std=gnu89>
     $<$<C_COMPILER_ID:Clang,GNU>:-Wall>
     $<$<C_COMPILER_ID:Clang,GNU>:-Wextra>
     $<$<C_COMPILER_ID:Clang,GNU>:-Wno-parentheses>
@@ -82,14 +81,6 @@ target_compile_definitions(opusfile
     $<$<BOOL:${OP_FIXED_POINT}>:OP_FIXED_POINT>
     $<$<BOOL:${OP_ENABLE_ASSERTIONS}>:OP_ENABLE_ASSERTIONS>
     $<$<BOOL:${OP_HAVE_LRINTF}>:OP_HAVE_LRINTF>
-)
-install(TARGETS opusfile
-  EXPORT OpusFileTargets
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/opus"
-  PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/opus"
 )
 
 if(NOT OP_DISABLE_HTTP)
@@ -169,7 +160,7 @@ if(NOT OP_DISABLE_HTTP)
       $<$<C_COMPILER_ID:MSVC>:/wd4267>
       $<$<C_COMPILER_ID:MSVC>:/wd4244>
       $<$<C_COMPILER_ID:MSVC>:/wd4090>
-      $<$<C_COMPILER_ID:Clang,GNU>:-std=c89>
+      $<$<C_COMPILER_ID:Clang,GNU>:-std=gnu89>
       $<$<C_COMPILER_ID:Clang,GNU>:-pedantic>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wall>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wextra>
@@ -212,7 +203,7 @@ if(NOT OP_DISABLE_EXAMPLES)
       $<$<C_COMPILER_ID:MSVC>:/wd4267>
       $<$<C_COMPILER_ID:MSVC>:/wd4244>
       $<$<C_COMPILER_ID:MSVC>:/wd4090>
-      $<$<C_COMPILER_ID:Clang,GNU>:-std=c89>
+      $<$<C_COMPILER_ID:Clang,GNU>:-std=gnu89>
       $<$<C_COMPILER_ID:Clang,GNU>:-pedantic>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wall>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wextra>
@@ -245,7 +236,7 @@ if(NOT OP_DISABLE_EXAMPLES)
       $<$<C_COMPILER_ID:MSVC>:/wd4267>
       $<$<C_COMPILER_ID:MSVC>:/wd4244>
       $<$<C_COMPILER_ID:MSVC>:/wd4090>
-      $<$<C_COMPILER_ID:Clang,GNU>:-std=c89>
+      $<$<C_COMPILER_ID:Clang,GNU>:-std=gnu89>
       $<$<C_COMPILER_ID:Clang,GNU>:-pedantic>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wall>
       $<$<C_COMPILER_ID:Clang,GNU>:-Wextra>
@@ -277,10 +268,6 @@ if(NOT OP_DISABLE_DOCS)
   doxygen_add_docs(doxygen "${CMAKE_CURRENT_SOURCE_DIR}/include/opusfile.h" ALL USE_STAMP_FILE)
 endif()
 
-install(EXPORT OpusFileTargets
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/opusfile"
-  NAMESPACE OpusFile::
-)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/OpusFileConfig.cmake.in"
@@ -292,11 +279,4 @@ write_basic_package_version_file(
   "OpusFileConfigVersion.cmake"
   VERSION "${PACKAGE_VERSION}"
   COMPATIBILITY AnyNewerVersion
-)
-install(
-  FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/OpusFileConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/OpusFileConfigVersion.cmake"
-  DESTINATION
-    "${CMAKE_INSTALL_LIBDIR}/cmake/opusfile"
 )
